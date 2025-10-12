@@ -54,7 +54,7 @@ async function fetchGitHubContributors() {
  */
 async function loadContributors() {
   const loadingIndicator = document.getElementById('loading-contributors');
-  const contributorsContainer = document.querySelector('.contributors');
+  const contributorsContainer = document.getElementById('contributors');
   
   if (loadingIndicator) {
     loadingIndicator.style.display = 'block';
@@ -101,9 +101,20 @@ async function loadContributors() {
       githubCountEl.textContent = githubContributors.length;
     }
     
+    // Update the global contributors array
+    if (typeof window !== 'undefined') {
+      window.contributors = allContributors;
+    }
+    
+    // Clear existing content
+    const container = document.getElementById('contributors');
+    if (container) {
+      container.innerHTML = '';
+    }
+    
     // Trigger your existing render function
     if (typeof render === 'function') {
-      render();
+      render(allContributors, { paginate: true });
     }
 
     if (loadingIndicator) {
@@ -131,8 +142,14 @@ async function loadContributors() {
         githubCountEl.style.fontSize = '1.2em';
       }
       
+      // Clear existing content
+      const container = document.getElementById('contributors');
+      if (container) {
+        container.innerHTML = '';
+      }
+      
       if (typeof render === 'function') {
-        render();
+        render(contributors, { paginate: true });
       }
       
       console.warn('⚠️ Using fallback contributors list (GitHub API failed)');

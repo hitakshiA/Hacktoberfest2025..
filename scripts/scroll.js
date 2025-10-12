@@ -3,10 +3,14 @@ const scrollBtn = document.getElementById("back-to-top-btn");
 
 window.onscroll = () => {
   if (!scrollBtn) return;
-  scrollBtn.style.display =
-    (document.documentElement.scrollTop || document.body.scrollTop) > 150
-      ? "block"
-      : "none";
+  const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
+  const threshold = 300;
+  
+  if (scrolled > threshold) {
+    scrollBtn.classList.add("show");
+  } else {
+    scrollBtn.classList.remove("show");
+  }
 };
 
 if (scrollBtn) {
