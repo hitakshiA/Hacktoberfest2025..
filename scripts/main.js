@@ -137,7 +137,12 @@ function render(array, options = { paginate: true }) {
 }
 
 // Load contributors after document loads.
-render(contributors, { paginate: true });
+// Check if contributors data is available from GitHub script
+if (typeof window !== 'undefined' && window.contributors) {
+  render(window.contributors, { paginate: true });
+} else {
+  render(contributors, { paginate: true });
+}
 
 /**
  * Loads more contributors when "Load More" button is clicked.
@@ -145,13 +150,17 @@ render(contributors, { paginate: true });
 function loadMore() {
   const container = document.getElementById("contributors");
   if (!container) return;
-  const totalPages = Math.ceil(contributors.length / pageSize);
+  
+  // Use window.contributors if available (from GitHub API), otherwise fallback to local contributors
+  const contributorsData = (typeof window !== 'undefined' && window.contributors) ? window.contributors : contributors;
+  
+  const totalPages = Math.ceil(contributorsData.length / pageSize);
   if (currentPage >= totalPages) {
-    render(contributors, { paginate: true });
+    render(contributorsData, { paginate: true });
   } else {
     currentPage += 1;
     container.innerHTML = "<div class='text-center' id='loading'>Loading...</div>";
-    render(contributors, { paginate: true });
+    render(contributorsData, { paginate: true });
     const loading = document.getElementById("loading");
     if (loading) loading.setAttribute("hidden", true);
     if (currentPage >= totalPages) {
@@ -214,7 +223,9 @@ function setupLoadMoreOnScroll() {
     if (container) container.appendChild(sentinel);
   }
   if (!("IntersectionObserver" in window)) return;
-  const totalPages = Math.ceil(contributors.length / pageSize);
+  // Use window.contributors if available (from GitHub API), otherwise fallback to local contributors
+  const contributorsData = (typeof window !== 'undefined' && window.contributors) ? window.contributors : contributors;
+  const totalPages = Math.ceil(contributorsData.length / pageSize);
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -246,7 +257,9 @@ if (searchbox) {
         else loadMoreEl.classList.remove("hidden");
       }
 
-      searchResult = await filterUsers(e.target.value, contributors);
+      // Use window.contributors if available (from GitHub API), otherwise fallback to local contributors
+      const contributorsData = (typeof window !== 'undefined' && window.contributors) ? window.contributors : contributors;
+      searchResult = await filterUsers(e.target.value, contributorsData);
       const container = document.getElementById("contributors");
       if (!container) return;
       container.innerHTML = e.target.value !== "" ? "<div class='text-center' id='loading'>Loading...</div>" : "";
@@ -259,7 +272,9 @@ if (searchbox) {
       } else {
         // Reset pagination when clearing search
         currentPage = 1;
-        render(contributors, { paginate: true });
+        // Use window.contributors if available (from GitHub API), otherwise fallback to local contributors
+        const contributorsData = (typeof window !== 'undefined' && window.contributors) ? window.contributors : contributors;
+        render(contributorsData, { paginate: true });
       }
 
       const loading = document.getElementById("loading");

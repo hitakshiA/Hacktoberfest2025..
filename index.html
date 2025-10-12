@@ -72,12 +72,22 @@
             height: 50px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #back-to-top-btn:hover {
             background-color: #d90739;
             transform: translateY(-5px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        #back-to-top-btn.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         #back-to-top-btn.mousedown {
@@ -122,12 +132,19 @@
         /* Enhanced heading animation */
         .heading {
             transition: all 0.6s ease;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .heading b {
             display: inline-block;
             font-family: 'Special Elite', cursive;
             letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .light .heading b {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -176,17 +193,17 @@
             <div class="tdnn">
                 <div class="moon"></div>
             </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="rubberBand delay-4s">🎉 Make ANY contribution - you'll appear automatically!</p>
-                <div class="inputs mr-3">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+                <p class="rubberBand delay-4s mb-3 mb-md-0">🎉 Make ANY contribution - you'll appear automatically!</p>
+                <div class="inputs w-100 w-md-auto">
                     <i class="fa fa-search"></i>
                     <input type="text" id="search" class="form-control" placeholder="Search Contributors.."
                         aria-label="Search contributors" aria-controls="contributors">
                 </div>
             </div>
-            <div>
+            <div class="text-center mb-4">
                 <a class="github-button" href="https://github.com/fineanmol/Hacktoberfest2025" data-icon="octicon-star"
-                    data-size="large" data-show-count="true" aria-label="Star fineanmol/Hacktoberfest2025 on GitHub">To
+                    data-size="large" data-show-count="true" aria-label="Star fineanmol/Hacktoberfest2025 on GitHub" style="background-color: #FF0844; color: white; padding: 10px 15px; border-radius: 6px; text-decoration: none; display: inline-block; font-weight: bold;">To
                     Get "HacktoberFest-Accepted" label, Star ✩ the repo </a>
             </div>
             <hr style="width:90%">
@@ -195,13 +212,13 @@
             <div id="loading-contributors" style="display:none; text-align:center; padding:40px;">
                 <div style="display:inline-block;">
                     <div
-                        style="border: 4px solid #f3f3f3; border-top: 4px solid #FF0844; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto;">
+                        style="border: 4px solid #f3f3f3; border-top: 4px solid #FF0844; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                     </div>
-                    <p style="margin-top: 15px; color: #FF0844; font-weight: bold;">
+                    <p style="margin-top: 20px; color: #FF0844; font-weight: bold; font-size: 1.2rem;">
                         Loading contributors from GitHub API...
                     </p>
-                    <p style="font-size: 0.9em; color: #666;">
-                        Fetching live data •
+                    <p style="font-size: 1rem; color: #666; margin-top: 10px;">
+                        Fetching live data • Please wait
                     </p>
                 </div>
             </div>
@@ -219,7 +236,7 @@
         </div>
         <div class="container-fluid">
             <!-- Contributors will be displayed here -->
-            <div class="box mx-auto my-5 justify-content-center" id="contributors" role="list" data-aos="zoom-in-down">
+            <div class="box mx-auto my-5 justify-content-center contributors" id="contributors" role="list" data-aos="zoom-in-down">
             </div>
         </div>
     </div>
@@ -230,10 +247,10 @@
     </div>
 
     <!-- Footer -->
-    <div class="footer mt-auto py-3 bg-light text-center">
+    <div class="footer mt-auto py-4 bg-light text-center">
         <div class="container">
             <span class="text-muted">
-                <div id="stats" aria-live="polite"></div>
+                <div id="stats" aria-live="polite" style="font-size: 1.1rem; font-weight: 500;"></div>
             </span>
         </div>
     </div>
@@ -245,12 +262,12 @@
                     id="current-year-copyright"></span>.</p>
             <div class="footer-menu">
                 <ul class="socials">
-                    <li><a href="https://www.facebook.com/fineanmol" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <li><a href="https://www.facebook.com/fineanmol" target="_blank" style="background-color: #3b5998;"><i class="fa fa-facebook"></i></a>
                     </li>
-                    <li><a href="https://twitter.com/fineanmol" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="https://www.instagram.com/fineanmol" target="_blank"><i
+                    <li><a href="https://twitter.com/fineanmol" target="_blank" style="background-color: #1DA1F2;"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="https://www.instagram.com/fineanmol" target="_blank" style="background-color: #C13584;"><i
                                 class="fa fa-instagram"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/fineanmol/" target="_blank"><i
+                    <li><a href="https://www.linkedin.com/in/fineanmol/" target="_blank" style="background-color: #0077b5;"><i
                                 class="fa fa-linkedin-square"></i></a></li>
                 </ul>
             </div>
